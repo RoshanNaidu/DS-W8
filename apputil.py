@@ -17,11 +17,6 @@ class MarkovText:
         return term_dict
 
     def generate(self, term_count=100, seed_term=None):
-    """
-    Generates text using a simple 1-word Markov chain.
-    - Raises ValueError if seed_term is invalid or corpus too short.
-    - Handles gracefully if seed_term is near the end of corpus.
-    """
     # Edge case: corpus too short
     if len(self.tokens) < 2:
         raise ValueError("Corpus must contain at least two words to build transitions.")
