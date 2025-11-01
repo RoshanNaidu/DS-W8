@@ -17,31 +17,22 @@ class MarkovText:
         return term_dict
 
     def generate(self, term_count=100, seed_term=None):
-    # Edge case: corpus too short
-    if len(self.tokens) < 2:
-        raise ValueError("Corpus must contain at least two words to build transitions.")
-
-    # Validate seed term
-    if seed_term:
-        if seed_term not in self.term_dict:
-            # ✅ Fix for test 2.3
+        if seed_term and seed_term not in self.term_dict:
             raise ValueError(f"Seed term '{seed_term}' not found in the corpus.")
-        current_term = seed_term
-    else:
-        current_term = np.random.choice(list(self.term_dict.keys()))
 
-    generated_text = [current_term]
+        current_term = seed_term if seed_term else np.random.choice(list(self.term_dict.keys()))
+        generated_text = [current_term]
 
-    for _ in range(term_count - 1):
-        next_terms = self.term_dict.get(current_term)
-        if not next_terms:
-            # ✅ Fix for test 2.2
-            break
-        next_term = np.random.choice(next_terms)
-        generated_text.append(next_term)
-        current_term = next_term
+        for _ in range(term_count - 1):
+            next_terms = self.term_dict.get(current_term)
+            if not next_terms:
+                break
+            next_term = np.random.choice(next_terms)
+            generated_text.append(next_term)
+            current_term = next_term
 
-    return ' '.join(generated_text)
+        return ' '.join(generated_text)
+
 
 class MarkovText_k:
     def __init__(self, corpus, k=1):
