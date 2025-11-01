@@ -9,6 +9,7 @@ class MarkovText:
         self.term_dict = self.get_term_dict()
 
     def get_term_dict(self):
+        """Generate a dictionary where each term is mapped to a list of possible following terms."""
         term_dict = defaultdict(list)
         for i in range(len(self.tokens) - 1):
             current_term = self.tokens[i]
@@ -29,7 +30,7 @@ class MarkovText:
         # Validate seed term
         if seed_term:
             if seed_term not in self.term_dict:
-                # Raise an error if the seed term isn't in the term_dict (test 2.3)
+                # Raise an error if the seed term isn't in the term_dict (fix for 2.3)
                 raise ValueError(f"Seed term '{seed_term}' not found in the corpus.")
             current_term = seed_term
         else:
@@ -40,8 +41,7 @@ class MarkovText:
         for _ in range(term_count - 1):
             next_terms = self.term_dict.get(current_term)
             if not next_terms:
-                # If no next terms exist (end of corpus or unique sequence), continue and don't break
-                # This will allow the generator to handle the second-to-last term case (test 2.2)
+                # If no next terms exist, we want to stop. (Fix for 2.2)
                 break
             next_term = np.random.choice(next_terms)
             generated_text.append(next_term)
@@ -80,7 +80,7 @@ class MarkovText_k:
                 raise ValueError("Seed term must be string, list, or tuple.")
 
             if seed_state not in self.term_dict:
-                raise ValueError(f"Seed state '{seed_state}' not found in the corpus.")  # Test 2.3
+                raise ValueError(f"Seed state '{seed_state}' not found in the corpus.")  # Fix for 2.3
             current_state = seed_state
         else:
             keys = list(self.term_dict.keys())
