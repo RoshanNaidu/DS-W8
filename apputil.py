@@ -23,6 +23,9 @@ class MarkovText:
         - Raises ValueError if seed_term is invalid or corpus too short.
         - Handles gracefully if seed_term is near the end of corpus.
         """
+        # Log term_count to verify input
+        print(f"Received term_count: {term_count}, Type: {type(term_count)}")
+        
         # Ensure term_count is an integer
         try:
             term_count = int(term_count)
@@ -73,6 +76,9 @@ class MarkovText_k:
         return term_dict
 
     def generate(self, term_count=100, seed_term=None):
+        # Log term_count to verify input
+        print(f"Received term_count: {term_count}, Type: {type(term_count)}")
+        
         if seed_term:
             if isinstance(seed_term, str):
                 seed_tokens = seed_term.split()
