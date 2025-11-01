@@ -38,6 +38,10 @@ class MarkovText:
 
         generated_text = [current_term]
 
+        # Ensure term_count is an integer
+        term_count = int(term_count)
+
+        # Generate the remaining terms
         for _ in range(term_count - 1):
             next_terms = self.term_dict.get(current_term)
             if not next_terms:
@@ -87,6 +91,9 @@ class MarkovText_k:
             current_state = keys[np.random.choice(len(keys))]
 
         generated_text = list(current_state)
+
+        # Ensure term_count is an integer
+        term_count = int(term_count)
 
         for _ in range(term_count - self.k):
             next_terms = self.term_dict.get(current_state)
