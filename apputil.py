@@ -23,6 +23,12 @@ class MarkovText:
         - Raises ValueError if seed_term is invalid or corpus too short.
         - Handles gracefully if seed_term is near the end of corpus.
         """
+        # Ensure term_count is an integer
+        try:
+            term_count = int(term_count)
+        except ValueError:
+            raise ValueError(f"Invalid term_count value: '{term_count}'. It must be an integer.")
+
         # Edge case: corpus too short
         if len(self.tokens) < 2:
             raise ValueError("Corpus must contain at least two words to build transitions.")
@@ -37,9 +43,6 @@ class MarkovText:
             current_term = np.random.choice(list(self.term_dict.keys()))
 
         generated_text = [current_term]
-
-        # Ensure term_count is an integer
-        term_count = int(term_count)
 
         # Generate the remaining terms
         for _ in range(term_count - 1):
@@ -93,7 +96,10 @@ class MarkovText_k:
         generated_text = list(current_state)
 
         # Ensure term_count is an integer
-        term_count = int(term_count)
+        try:
+            term_count = int(term_count)
+        except ValueError:
+            raise ValueError(f"Invalid term_count value: '{term_count}'. It must be an integer.")
 
         for _ in range(term_count - self.k):
             next_terms = self.term_dict.get(current_state)
