@@ -18,11 +18,6 @@ class MarkovText(object):
 
     def get_term_dict(self):
 
-        """
-        Build a transition dictionary mapping a state -> list of possible next tokens.
-        For k==1, state is a single token string.
-        For k>1, state is a tuple of k tokens.
-        """
         trans = defaultdict(list)
         toks = self.tokens
         k = self.k
@@ -39,14 +34,7 @@ class MarkovText(object):
 
 
     def generate(self, seed=None, term_count=15):
-        """
-        Generate text using the transition dictionary.
-        - term_count: number of tokens to produce
-        - seed: optional starting token/tuple. If provided and not found, raise ValueError.
-        Rules:
-        - At each step choose the next token uniformly from the state's list.
-        - If a state has no outgoing transitions (rare with this build), we re-seed randomly.
-        """
+
         if self.term_dict is None:
             self.get_term_dict()
 
